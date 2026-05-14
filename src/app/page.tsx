@@ -1,65 +1,54 @@
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 
-export default function Home() {
+export default function Landing() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-gray-50">
+      
+  {/* 1. FIXED NAVBAR */}
+   <Navbar/>
+
+      {/* 2. MAIN HERO SECTION */}
+      <main className="container mx-auto px-6 py-16 flex flex-col md:flex-row items-center gap-12">
+        
+        {/* Left Side: Text and Search */}
+        <div className="flex-1 space-y-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+            Rent Your Dream Car Today
+          </h2>
+          <p className="text-lg text-gray-600">
+            Simple, fast, and affordable car rentals.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+          
+          {/* Simple Search Box */}
+          <div className="bg-white p-6 rounded-xl shadow-md flex flex-col gap-4 max-w-md border border-gray-100">
+            <input 
+              type="text" 
+              placeholder="Enter pickup location..." 
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <button className="bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">
+              Search Cars
+            </button>
+          </div>
         </div>
+
+        {/* Right Side: Image using next/image */}
+        <div className="flex-1 w-full h-[300px] md:h-[400px] relative">
+          {/* Replace this src with an image from your public folder like src="/car.jpg" */}
+          <Image 
+            src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1000&auto=format&fit=crop" 
+            alt="Blue rental car"
+            fill
+            className="object-cover rounded-2xl shadow-lg"
+            priority
+          />
+        </div>
+        
       </main>
+
     </div>
   );
 }
