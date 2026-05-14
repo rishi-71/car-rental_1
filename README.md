@@ -23,7 +23,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## System Architecture
 
-![CarWala Architecture Diagram](./public/car-wala architecture.png)
+![CarWala Architecture Diagram](./public/car-wala-architecture.png)
 
 
 ## Learn More
