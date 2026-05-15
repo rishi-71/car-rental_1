@@ -23,7 +23,7 @@ export default function VendorDashboard() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
-    } else if (status === 'authenticated' && (session?.user as any)?.role !== 'vendor') {
+    } else if (status === 'authenticated' && session?.user?.role !== 'vendor') {
       router.push('/');
     }
   }, [status, session, router]);

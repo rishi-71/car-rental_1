@@ -31,17 +31,17 @@ export default function Navbar() {
         {status === 'authenticated' && session?.user && (
           <div className="flex items-center gap-6">
             <span className="text-sm text-gray-700 font-medium">
-              Hello, {session.user.name} <span className="text-blue-600">({(session.user as any).role})</span>
+              Hello, {session.user.name} <span className="text-blue-600">({session.user.role})</span>
             </span>
 
             {/* Role-Based Links */}
-            {(session.user as any).role === 'vendor' && (
+            {session.user.role === 'vendor' && (
               <Link href="/vendor/dashboard" className="text-sm font-bold text-gray-900 hover:text-blue-600 transition">
                 My Dashboard
               </Link>
             )}
             
-            {(session.user as any).role === 'customer' && (
+            {session.user.role === 'customer' && (
               <Link href="/bookings" className="text-sm font-bold text-gray-900 hover:text-blue-600 transition">
                 My Bookings
               </Link>

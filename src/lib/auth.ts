@@ -54,8 +54,8 @@ export const authOptions: NextAuthOptions = {
     // 2. Pass role and id from the token to the client-side session
     async session({ session, token }) {
       if (token && session.user) {
-        (session.user as any).role = token.role;
-        (session.user as any).id = token.id;
+        session.user.role = token.role;
+        session.user.id = token.id;
       }
       return session;
     }

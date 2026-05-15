@@ -23,7 +23,7 @@ export default async function MyBookingsPage() {
 
   // 4. Fetch the bookings for this specific user
   // .populate('carId') tells Mongoose to automatically fetch the Car details linked to this booking
-  const bookings = await Booking.find({ customerId: (session.user as any).id })
+  const bookings = await Booking.find({ customerId: session.user.id })
     .populate('carId') 
     .sort({ createdAt: -1 }) // Show newest bookings first
     .lean();
