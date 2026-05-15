@@ -36,9 +36,14 @@ export default function Navbar() {
 
             {/* Role-Based Links */}
             {session.user.role === 'vendor' && (
+              <>
               <Link href="/vendor/dashboard" className="text-sm font-bold text-gray-900 hover:text-blue-600 transition">
-                My Dashboard
+                Add Car
               </Link>
+              <Link href="/vendor/requests" className='text-sm font-bold  text-gray-900 hover:text-blue-600 transition'>
+                Booking Requests
+              </Link>
+              </>
             )}
             
             {session.user.role === 'customer' && (
