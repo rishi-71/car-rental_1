@@ -29,6 +29,8 @@ export default async function CarDetailsPage({ params }: { params: Promise<{ id:
     return notFound();
   }
 
+    const plainCar = JSON.parse(JSON.stringify(car));
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -75,7 +77,7 @@ export default async function CarDetailsPage({ params }: { params: Promise<{ id:
 
           {/* RIGHT SIDE: Booking Card */}
          <div className='lg:col-span-1'>
-            <BookingWidget car = {car}/>
+            <BookingWidget car = {plainCar}/>
          </div>
 
         </div>
