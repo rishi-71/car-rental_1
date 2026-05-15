@@ -22,8 +22,8 @@ export default async function VendorRequestsPage() {
   // Fetch bookings where the vendorId matches the logged-in vendor
   // We populate both the Car details AND the Customer details
   const bookings = await Booking.find({ vendorId: session.user.id })
-    .populate('carId')
-    .populate('customerId', 'name email') // Only grab the customer's name and email
+    .populate({ path: 'carId', model: Car }) 
+    .populate({ path: 'customerId', model: User, select: 'name email' })// Only grab the customer's name and email
     .sort({ createdAt: -1 })
     .lean();
 
