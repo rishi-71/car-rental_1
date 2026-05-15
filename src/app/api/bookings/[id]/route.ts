@@ -11,7 +11,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const session = await getServerSession(authOptions);
     
     // Security Check: Only logged-in vendors can update bookings
-    if (!session || (session.user as any).role !== 'vendor') {
+    if (!session || session.user.role !== 'vendor') {
       return NextResponse.json({ message: 'Unauthorized.' }, { status: 403 });
     }
 
@@ -25,7 +25,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     // Update the booking, ensuring it belongs to THIS specific vendor
     const updatedBooking = await Booking.findOneAndUpdate(
-      { _id: id, vendorId: (session.user as any).id },
+      { _id: id, vendorId: session.user.id },
       { status: status },
       { new: true }
     );

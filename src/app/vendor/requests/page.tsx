@@ -13,7 +13,7 @@ import VendorBookingActions from '@/components/VendorBookingActions';
 export default async function VendorRequestsPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session || (session.user as any).role !== 'vendor') {
+  if (!session || session.user.role !== 'vendor') {
     redirect('/login');
   }
 
@@ -21,7 +21,7 @@ export default async function VendorRequestsPage() {
 
   // Fetch bookings where the vendorId matches the logged-in vendor
   // We populate both the Car details AND the Customer details
-  const bookings = await Booking.find({ vendorId: (session.user as any).id })
+  const bookings = await Booking.find({ vendorId: session.user.id })
     .populate('carId')
     .populate('customerId', 'name email') // Only grab the customer's name and email
     .sort({ createdAt: -1 })
