@@ -5,6 +5,8 @@ import connectToDB from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import { redirect } from "next/navigation";
 import BookingsClient from "./BookingsClient";
+import Car from "@/models/Car";
+import User from "@/models/User";
 
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
@@ -15,11 +17,13 @@ export default async function BookingsPage() {
 
   await connectToDB();
 
+  console.log("Models loaded: ",Car.modelName, User.modelName);
+
   console.log("Logged in User id:",session.user.id);
 
   // 1. Fetch bookings from the database
   const myBookings = await Booking.find({ customerId: session.user.id })
-    .populate('carId', 'make carModel imageUrl pricePerDay location')
+    .populate('carId', 'make carModel imageUrl pricePerDay location vendorId')
     .sort({ createdAt: -1 })
     .lean();
 
@@ -28,5 +32,5 @@ export default async function BookingsPage() {
    const serializedBookings = JSON.parse(JSON.stringify(myBookings));
 
   // 3. Pass the clean data to the interactive Client UI
-  return <BookingsClient initialBookings={serializedBookings} />;
+  return <BookingsClient initialBookings={serializedBookings} currentUserId={session.user.id}/>;
 }

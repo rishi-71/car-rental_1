@@ -4,8 +4,13 @@ import React, {useState} from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import ReviewForm from '@/components/ReviewForm';
+import ChatBox from '@/components/ChatBox';
 
-export default function BookingsClient({ initialBookings }: {initialBookings: any[]}){
+
+
+export default function BookingsClient({ initialBookings, currentUserId }: {initialBookings: any[], currentUserId: string}){
+
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
     
     const formatData = (dateString: string) =>{
         if(!dateString) return "TBD";
@@ -92,18 +97,42 @@ return <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full t
 
                   {/* The Rate Trip Button */}
                   {booking.status === 'confirmed' && (
-                    <button 
-                      onClick={() => {
-                        const form = document.getElementById(`review-form-${booking._id}`);
-                        form?.classList.toggle('hidden');
-                      }}
-                      className="w-full text-center text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors py-2 px-4 rounded-lg"
-                    >
-                      Rate Trip
-                    </button>
+                   <div className="flex flex-col gap-2 w-full">
+      {/* THE NEW CHAT BUTTON */}
+      <button 
+        onClick={() => setActiveChatId(activeChatId === booking._id ? null : booking._id)}
+        className="w-full text-center text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors py-2 px-4 rounded-lg shadow-sm"
+      >
+        {activeChatId === booking._id ? 'Close Chat' : 'Chat with Host'}
+      </button>
+
+      {/* Your existing Rate Trip Button */}
+      <button 
+        onClick={() => {
+          const form = document.getElementById(`review-form-${booking._id}`);
+          form?.classList.toggle('hidden');
+        }}
+        className="w-full text-center text-sm font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors py-2 px-4 rounded-lg"
+      >
+        Rate Trip
+      </button>
+    </div>
                   )}
                 </div>
               </div>
+
+              {/* THE CHAT BOX CONTAINER */}
+              {activeChatId === booking._id && (
+                <div className="mt-6 border-t border-slate-100 pt-6 flex justify-center fade-in">
+                  <ChatBox 
+                    currentUserId={currentUserId}
+                    // Depending on how deeply nested vendorId is from your populate, 
+                    // it might be an object or a string. We extract the ID safely.
+                    receiverId={ booking.carId?.vendorId?._id || booking.carId?.vendorId || ''}
+                    carId={booking.carId?._id}
+                  />
+                </div>
+              )}
 
               {/* The Hidden Review Form wrapper */}
               <div id={`review-form-${booking._id}`} className="hidden transition-all mt-4 border-t border-slate-100 pt-4">

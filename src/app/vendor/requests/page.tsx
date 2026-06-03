@@ -12,6 +12,7 @@ import VendorBookingActions from '@/components/VendorBookingActions';
 
 export default async function VendorRequestsPage() {
   const session = await getServerSession(authOptions);
+  const vendorId = session?.user?.id;
 
   if (!session || session.user.role !== 'vendor') {
     redirect('/login');
@@ -90,7 +91,10 @@ export default async function VendorRequestsPage() {
                   <div className="w-full md:w-auto md:pl-6 md:border-l border-gray-100 flex justify-end">
                     <VendorBookingActions 
                       bookingId={booking._id.toString()} 
-                      currentStatus={booking.status} 
+                      currentStatus={booking.status}
+                      vendorId={vendorId}
+                      customerId={customer ? customer._id.toString():''} 
+                      carId={car ? car._id.toString(): ''}
                     />
                   </div>
 

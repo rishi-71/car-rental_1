@@ -58,3 +58,45 @@ export async function POST(req: Request){
         return NextResponse.json({ error: "internal server Error"},{status: 500});
     }
 }
+
+export async function GET(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if(!session || !session.user) {
+            return NextResponse.json({ error: 'Unauthorized'}, { status: 401});
+        }
+
+        const { searchParams } = new URL(req.url);
+        const receiverId = searchParams.get('receiverId');
+        const carId = searchParams.get('carId');
+        const senderId = session.user.id;
+
+        if(!receiverId || !carId){
+            return NextResponse.json({ error: 'Missing  parameters'}, {status:400});
+        }
+
+        await dbConnect();
+
+        const conversation = await Conversation.findOne({
+            participants: { $all: [senderId, receiverId]},
+            carId: carId
+        });
+
+        if(!conversation){
+            return NextResponse.json({ messages: [], conversationId: null}, {status: 200});
+        }
+
+        const messages = await Message.find({ conversationId: conversation._id})
+        .sort({ createdAt : 1})
+        .lean();
+
+        return NextResponse.json({
+            messages,
+            conversationId: conversation._id
+        }, { status: 200});
+
+    } catch (error) {
+        console.error('Message_get_error:',error);
+        return NextResponse.json({ error: 'Internal server error'}, {status: 500});
+    }
+}
