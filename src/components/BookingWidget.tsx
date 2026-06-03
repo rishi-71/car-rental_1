@@ -13,6 +13,35 @@ export default function BookingWidget({ car }: { car: any }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [minDate,setMinDate] = useState('');
+
+ React.useEffect(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    setMinDate(`${year}-${month}-${day}`);
+  }, []); 
+
+// const getLocalToday = () => {
+//     const now = new Date();
+//     const year = now.getFullYear();
+//     const month = String(now.getMonth() + 1).padStart(2, '0');
+//     const day = String(now.getDate()).padStart(2, '0');
+//     setMinDate(`${year}-${month}-${day}`);
+    
+//   };
+
+//   const today = getLocalToday();
+  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newStartDate = e.target.value;
+    setStartDate(newStartDate);
+
+    if(endDate && newStartDate > endDate){
+      setEndDate('');
+    }
+  }
+
   // Calculate total days and price dynamically
   const calculateTotal = () => {
     if (!startDate || !endDate) return 0;
@@ -62,7 +91,7 @@ export default function BookingWidget({ car }: { car: any }) {
         setMessage(`❌ Error: ${data.message}`);
       }
     } catch (error) {
-      setMessage('❌ An unexpected error occurred.');
+      setMessage('❌ An unexpected error occurred.',error);
     } finally {
       setLoading(false);
     }
@@ -88,18 +117,20 @@ export default function BookingWidget({ car }: { car: any }) {
             type="date" 
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
+            min={minDate}
             className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900 placeholder-gray-400" 
           />
         </div>
         
-        <div>
+<div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Drop-off Date</label>
           <input 
             type="date" 
             value={endDate}
-            min={startDate} // Prevent picking an end date before the start date
+            min={startDate || minDate} // RULE 2: Must be after start date (or today if start date is empty)
+            disabled={!startDate}    // RULE 3: Lock this input until they pick a start date!
             onChange={(e) => setEndDate(e.target.value)}
-            className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900 placeholder-gray-400" 
+            className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none bg-white text-gray-900 placeholder-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:text-gray-400" 
           />
         </div>
 
