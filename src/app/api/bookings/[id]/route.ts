@@ -17,7 +17,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     const { status } = await req.json();
 
-    if (!['confirmed', 'cancelled'].includes(status)) {
+    const allowedStatuses = ['pending', 'awaiting_payment', 'confirmed', 'cancelled', 'completed']
+
+    if (!allowedStatuses.includes(status)) {
       return NextResponse.json({ message: 'Invalid status.' }, { status: 400 });
     }
 

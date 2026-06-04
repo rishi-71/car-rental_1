@@ -10,6 +10,8 @@ import User from '@/models/User'; // Needed to populate the Customer's name
 import Navbar from '@/components/Navbar';
 import VendorBookingActions from '@/components/VendorBookingActions';
 
+
+export const dynamic = 'force-dynamic';
 export default async function VendorRequestsPage() {
   const session = await getServerSession(authOptions);
   const vendorId = session?.user?.id;

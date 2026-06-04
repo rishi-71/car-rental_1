@@ -8,6 +8,8 @@ import BookingsClient from "./BookingsClient";
 import Car from "@/models/Car";
 import User from "@/models/User";
 
+export const dynamic = 'force-dynamic';
+
 export default async function BookingsPage() {
   const session = await getServerSession(authOptions);
   
