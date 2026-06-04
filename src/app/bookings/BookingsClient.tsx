@@ -108,16 +108,19 @@ export default function BookingsClient({
               }),
             });
 
-            const verifyData = await verifyRes.json();
+          const verifyData = await verifyRes.json();
 
             if(verifyData.ok){
               alert("payment verified & booking confirmed!!");
-              router.refresh();
+              setTimeout(() => {
+                window.location.reload();
+              },500);
+             // router.refresh();
             }else {
-              alert(verifyData.error);
+              alert(verifyData?.error || "Payment verification failed. Please contact support")
             }
           }catch(error) {
-            alert(verifyData?.error || "Payment verification failed. Please contact support");
+           console.log(error);
           }
         },
 

@@ -57,7 +57,7 @@ const scrollToBottom = () => {
     useEffect(()=>{
         const fetchHistory = async () => {
             try {
-                const res = await fetch(`/api/messages?receiverId=${receiverId}&carId=${carId}`);
+                const res = await fetch(`/api/messages?receiverId=${receiverId}&carId=${carId}`,{ cache: 'no-store'});
                 if(res.ok){
                     const data = await res.json();
                     setMessages(data.messages);
@@ -81,11 +81,15 @@ const scrollToBottom = () => {
 
         const channel = pusherClient.subscribe(channelName);
 
-        channel.bind('new-message', (incomingMessage: Message) =>{
-            setMessages((prevMessages) => {
-                const isDuplicate = prevMessages.some((msg) => msg._id === incomingMessage._id);
-                if(isDuplicate) return prevMessages;
-                return [...prevMessages, incomingMessage];
+        channel.bind('new-message', (incomingMessage: any) =>{
+            setMessages((prev) => {
+                const messageExists = prev.some((msg) => msg._id === incomingMessage._id);
+                //if(isDuplicate) return prevMessages;
+
+                if(messageExists){
+                  return prev;
+                }
+                return [...prev, incomingMessage];
             })
         });
 
