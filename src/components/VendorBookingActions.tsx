@@ -37,7 +37,7 @@ export default function VendorBookingActions({ bookingId, currentStatus, vendorI
       {currentStatus === 'pending' ? (
         <div className="flex gap-3 w-full justify-end">
           <button 
-            onClick={() => handleUpdate('confirmed')}
+            onClick={() => handleUpdate('awaiting_payment')}
             disabled={loading}
             className="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 transition disabled:opacity-50 shadow-sm"
           >

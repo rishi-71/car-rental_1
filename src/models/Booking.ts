@@ -17,7 +17,15 @@ const BookingSchema: Schema = new Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   totalPrice: { type: Number, required: true },
-  status: { type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'confirmed', 'cancelled', 'awaiting_payment','completed'], default: 'pending' },
+  razonpayOrderId: {
+    type: String,
+    required: false,
+  },
+  razorpayPaymentId: {
+    type: String,
+    required: false,
+  }
 }, { timestamps: true });
 
 export default mongoose.models.Booking || mongoose.model<IBooking>('Booking', BookingSchema);
