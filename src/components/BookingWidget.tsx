@@ -91,7 +91,7 @@ export default function BookingWidget({ car }: { car: any }) {
         setMessage(`❌ Error: ${data.message}`);
       }
     } catch (error) {
-      setMessage('❌ An unexpected error occurred.',error);
+      setMessage('❌ An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
