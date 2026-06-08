@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth'; // Ensure this path matches your auth.ts location
 import dbConnect from '@/lib/mongodb';
 import Car from '@/models/Car';
+import { revalidatePath } from 'next/cache';
 
 export async function POST(req: Request) {
   try {
@@ -34,6 +35,9 @@ export async function POST(req: Request) {
       location,
       isAvailable: true,
     });
+
+    revalidatePath('/vendor/dashboard');
+    revalidatePath('/cars');
 
     return NextResponse.json({ message: 'Car added successfully!', car: newCar }, { status: 201 });
 
