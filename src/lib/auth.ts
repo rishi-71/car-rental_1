@@ -44,10 +44,14 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     // 1. Pass role and id to the JWT token
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.role = user.role;
         token.id = user.id;
+      }
+
+      if(trigger === "update" && session?.role){
+        token.role = session.role;
       }
       return token;
     },
