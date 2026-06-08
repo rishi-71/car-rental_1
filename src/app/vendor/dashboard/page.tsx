@@ -6,12 +6,16 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { getServerSession } from 'next-auth';
+
+export const dynamic = 'force-dynamic';
 
 const steps = [
   { id : 1, name: "Basics"},
   { id : 2, name: "Location & Photo"},
   { id : 3, name: "Pricing"},
 ];
+
 
 export default function VendorDashboard() {
   const { data: session, status } = useSession();
@@ -89,6 +93,7 @@ export default function VendorDashboard() {
           imageUrl: "",
           pricePerDay: "",
         })
+        router.refresh();
         setCurrentStep(1);
       } else {
         setMessage(`Error: ${data.message}`);
